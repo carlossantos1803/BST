@@ -9,7 +9,7 @@ class BST {
     Node* left;
     Node* right;
     public:
-    Node (int _key)
+    Node (const int& _key)
 		: key(new int(_key)), count(1), left(nullptr), right(nullptr)
 		{}
 	~Node() {
@@ -18,7 +18,7 @@ class BST {
 		delete right;
 	}
 	
-    int* getKey(){
+    const int* getKey(){
         return key;
     }
     void setLeftNode(Node* _left){
@@ -33,21 +33,21 @@ class BST {
     Node* getRightNode(){
         return right;
     }
-    void setCount(int _count){
+    void setCount(const int& _count){
     	count = _count;
 	}
-	int getCount(){
+	const int getCount(){
 		return count;
 	}
   };
   
     Node* root = 0;  //nullptr = 0;
     
-	int size(Node* x){
+	const int size(Node* x){
 		if(!x) return 0; // como nullptr = 0 y en bool false = 0, entonces esta bien decir x = x = nullptr
 		return (x->getCount()); 
 	}
-    Node* put(Node* x, int _key){
+    Node* put(Node* x, const int& _key){
         if(!x) // como nullptr = 0 y en bool false = 0, entonces esta bien decir !x = x = nullptr
 			{return new Node(_key);}
         int key = *(x->getKey());
@@ -60,7 +60,7 @@ class BST {
 		x->setCount( 1 + size(x->getLeftNode()) + size(x->getRightNode()));
         return x;
     }
-    void show(Node* x){
+    const void show(Node* x){
         if (!x) return; // como nullptr = 0 y en bool false = 0, entonces esta bien decir !x = x = nullptr
         //cout<< *(x->getKey())<<" "; //preorder;
         show(x->getLeftNode());
@@ -91,13 +91,13 @@ class BST {
 		x->setRightNode(borrarMax(x->getRightNode()));
 	    fixCount(x);
 	}
-	void get(Node* x, int _key) {
+	const void get(Node* x, const int& _key) {
 		if (x == nullptr) return;
 		if (_key < *(x->getKey())) get(x->getLeftNode(), _key);
 		else if (_key > *(x->getKey())) get(x->getRightNode(), _key);
 		else cout << "\nSe encontro el dato " << *(x->getKey())<<endl;
 	}
-   	Node* floor(Node* x, int _key){
+   	Node* floor(Node* x, const int& _key){
 		if(!x)
 			{return x; } // como nullptr = 0 y en bool false = 0, entonces esta bien decir !x = x = nullptr
 		//int cmp = compareTo(_key, x->getKey());
@@ -114,7 +114,7 @@ class BST {
 		else 
 			{return x;}
 	}
-	Node* ceiling(Node* x, int _key){
+	Node* ceiling(Node* x, const int& _key){
 		Node* larger = NULL;
 		while(x){ // como nullptr = 0 y en bool false = 0, entonces esta bien decir x == x != nullptr
 			int key = *(x->getKey());
@@ -129,7 +129,7 @@ class BST {
 		}
 		return larger;
 	}
-	int rank(Node* x, int _key){// how many keys < kth
+	int rank(Node* x, const int& _key){// how many keys < kth
 		if (!x) return 0; // como nullptr = 0 y en bool false = 0, entonces esta bien decir x = x = nullptr
 		int key = *(x->getKey());
 		if (_key < key) 
@@ -147,7 +147,7 @@ class BST {
 		x->setCount(1 + size(x->getLeftNode()) + size(x->getRightNode()));
 		return x;
 	}
-	Node* eliminar(Node* x, int _key){
+	Node* eliminar(Node* x, const int& _key){
 		if(!x) return NULL; // como nullptr = 0 y en bool false = 0, entonces esta bien decir x = x = nullptr
 		int key = *(x->getKey());
 		if (_key < key) x->setLeftNode(eliminar(x->getLeftNode(),_key));
@@ -164,19 +164,19 @@ class BST {
 		return x;
 	}
 	public:
-		int size(){
+		const int size(){
 			return size(root);
 		}
-	    void put(int _key){
+	    void put(const int& _key){
 	        root = put(root, _key);
 	    }
-	    void mostrar(){
+	    const void mostrar(){
 	        show(root);
 	    }
-	    void Min(){
+	    const void Min(){
 	        Min(root);
 	    }
-	    void Max(){
+	    const void Max(){
 	        Max(root);
 	    }
 	    void deleteMin(){
@@ -185,38 +185,38 @@ class BST {
 		void deleteMax(){
 			root = borrarMax(root);
 		}
-		void get(int _key){
+		void get(const int& _key){
 			get(root, _key);
 		}
-		int minKey(){
+		const int minKey(){
 			Node* x = root;
 			while(x->getLeftNode()){ //x->getLeftNode() != NULL
 				x = x->getLeftNode();
 			}
 			cout<< "\nEl minimo elemento del arbol es: "<< *(x->getKey())<<endl;
 		}
-		int maxKey(){
+		const int maxKey(){
 			Node* x = root;
 			while(x->getRightNode()){
 				x = x->getRightNode();
 			}
 			cout<<"\nEL maximo elemento del arbol es: "<< *(x->getKey())<<endl;
 		}
-		int floor(int _key){
+		const int floor(const int& _key){
 			Node* x = floor(root, _key);
 			if(!x) return 0; // como nullptr = 0 y en bool false = 0, entonces esta bien decir x = x = nullptr
 			return *(x->getKey());
 		}
-		int ceiling(int _key){ //analizar ceiling
+		const int ceiling(const int& _key){ //analizar ceiling
 			Node* x = ceiling(root, _key);
 			if(!x) return 0; // como nullptr = 0 y en bool false = 0, entonces esta bien decir x = x = nullptr
 			return *(x->getKey());
 		}
-		int rank(int _key){
+		const int rank(const int& _key){
 			return rank(root, _key);
 		}
 		//hibbard deletion		
-		void eliminar(int _key){
+		void eliminar(const int& _key){
 			root = eliminar(root,_key);
 		}
 };
