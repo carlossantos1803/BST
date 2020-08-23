@@ -12,6 +12,11 @@ class BST {
     Node (int _key)
 		: key(new int(_key)), count(1), left(nullptr), right(nullptr)
 		{}
+	~Node() {
+		delete key;
+		delete left;
+		delete right;
+	}
 	
     int* getKey(){
         return key;
