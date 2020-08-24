@@ -1,0 +1,2 @@
+C:\carlossantos\git\BST\Arbol Binario\Debug\Arbol Binario.exe
+C:\carlossantos\git\BST\Arbol Binario\Debug\Arbol Binario.pdb
