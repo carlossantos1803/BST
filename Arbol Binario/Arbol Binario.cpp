@@ -2,36 +2,38 @@
 //
 
 #include <iostream>
+#include <memory>
 class Node
 {
 public:
-	Node(const int& _key) : key(_key), left(nullptr), right(nullptr) {
+	Node(const int& _key) : key(_key) { //, left(nullptr), right(nullptr) {
 		printf("Construyendo Nodo\n");
+	};
+	Node(const std::shared_ptr<Node>& old) : key(old->key) {//, left(old.left), right(old.right) {
+		printf("Usando Copy Constructor");
 	};
 	~Node() {
 		printf("Destruyendo Nodo\n");
-		delete left;
-		delete right;
 	};
 	const int getKey() {
 		return key;
 	}
-	void setLeft(Node* _left) {
+	void setLeft(const std::shared_ptr<Node>& _left) {
 		left = _left;
 	}
-	Node* getLeft() {
+	std::shared_ptr<Node> getLeft() const {
 		return left;
 	}
-	void setRight(Node* _right) {
+	void setRight(const std::shared_ptr<Node>& _right) {
 		right = _right;
 	}
-	Node* getRight() {
+	std::shared_ptr<Node> getRight() const {
 		return right;
 	}
 private:
 	int key;
-	Node* left;
-	Node* right;
+	std::shared_ptr<Node> left;
+	std::shared_ptr<Node> right;
 };
 
 class BST
@@ -42,15 +44,34 @@ public:
 	void add(const int& key) {
 		root = agregar(root, key);
 	}
-	
 	void show() {
 		mostrar(root);
 	}
+	void minimo() {
+		min(root);
+	}
+	void maximo() {
+		max(root);
+	}
 
 private:
-	Node* agregar(Node* x, const int& _key) {
-		if (x == nullptr) {
-			return new Node(_key);
+	void min(const std::shared_ptr<Node>& x) {
+		if (!x->getLeft()) {
+			printf("\nMinimo elemento del arbol binario: %d\n", x->getKey());
+			return;
+		}
+		min(x->getLeft());
+	}
+	void max(const std::shared_ptr<Node>& x) {
+		if (!x->getRight()) {
+			printf("\nMaximo elemento del arbol binario: %d\n", x->getKey());
+			return;
+		}
+		min(x->getRight());
+	}
+	std::shared_ptr<Node> agregar(const std::shared_ptr<Node>& x, const int& _key) {
+		if (!x){// == nullptr) {
+			return std::make_shared<Node>(_key);
 		}
 		else {
 			if (x->getKey() >= _key) {
@@ -62,37 +83,29 @@ private:
 		}
 		return x;
 	}
-	void mostrar(Node* x) {
+	void mostrar(const std::shared_ptr<Node>& x) {
 		if (x == nullptr) return;
-		//printf("%d ", x->getKey());
-		//if(x!=nullptr)
 		mostrar(x->getLeft());
 		printf("%d ", x->getKey());
-		//if (x != nullptr) 
 		mostrar(x->getRight());
-		//printf("%d ", x->getKey());
 	}
-	Node* root = nullptr;
+	std::shared_ptr<Node> root;
 
 };
 
 
 int main()
 {
-	BST tree;
-	tree.add(25);
-	tree.add(15);
-	tree.add(35);
-	tree.show();
-    std::cout << "Hello World!\n";
+	{
+		BST tree;
+		tree.add(25);
+		tree.add(15);
+		tree.add(35);
+		tree.show();
+		tree.minimo();
+		tree.maximo();
+	}
+	std::cin.get();
+	return 0;
 }
 
-// Ejecutar programa: Ctrl + F5 o menú Depurar > Iniciar sin depurar
-// Depurar programa: F5 o menú Depurar > Iniciar depuración
-
-// Sugerencias para primeros pasos: 1. Use la ventana del Explorador de soluciones para agregar y administrar archivos
-//   2. Use la ventana de Team Explorer para conectar con el control de código fuente
-//   3. Use la ventana de salida para ver la salida de compilación y otros mensajes
-//   4. Use la ventana Lista de errores para ver los errores
-//   5. Vaya a Proyecto > Agregar nuevo elemento para crear nuevos archivos de código, o a Proyecto > Agregar elemento existente para agregar archivos de código existentes al proyecto
-//   6. En el futuro, para volver a abrir este proyecto, vaya a Archivo > Abrir > Proyecto y seleccione el archivo .sln
