@@ -1,2 +1,3 @@
 ﻿  Arbol Binario.cpp
+C:\carlossantos\git\BST\Arbol Binario\Arbol Binario.cpp(250): warning C4715: 'BST::borrarMin': no todas las rutas de acceso de control devuelven un valor
   Arbol Binario.vcxproj -> C:\carlossantos\git\BST\Arbol Binario\Debug\Arbol Binario.exe
